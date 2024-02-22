@@ -1,0 +1,3 @@
+packages:
+  - 'social-auth-nestjs'
+  - 'social-auth-nextjs'
