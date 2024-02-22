@@ -59,6 +59,9 @@ importers:
       rxjs:
         specifier: ^7.8.1
         version: 7.8.1
+      swagger-ui-dist:
+        specifier: ^5.11.7
+        version: 5.11.7
       typeorm:
         specifier: ^0.3.20
         version: 0.3.20(pg@8.11.3)(ts-node@10.9.2)
@@ -6713,6 +6716,10 @@ packages:
 
   /swagger-ui-dist@5.11.2:
     resolution: {integrity: sha512-jQG0cRgJNMZ7aCoiFofnoojeSaa/+KgWaDlfgs8QN+BXoGMpxeMVY5OEnjq4OlNvF3yjftO8c9GRAgcHlO+u7A==}
+    dev: false
+
+  /swagger-ui-dist@5.11.7:
+    resolution: {integrity: sha512-8xqfJFRVEEU3Zxe8vQvC4g827lDOqV9haougR3tnlgF/PkDN//9Y6kGV9qsT0A9vawlbdF8dF/R6HrlDyHvbEQ==}
     dev: false
 
   /symbol-observable@4.0.0:
