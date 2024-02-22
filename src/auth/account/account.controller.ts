@@ -2,8 +2,9 @@ import { AccountEntity } from '@/auth/account/account.entity';
 import { AccountService } from '@/auth/account/account.service';
 import { SignInRequestDto } from '@/auth/account/sign-in.request.dto';
 import { SignUpRequestDto } from '@/auth/account/sign-up.request.dto';
-import { Body, Controller, Get, Post, Req } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { AuthenticationGuard } from '@/auth/authentication.guard';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 
 @Controller('api/v1/auth/account')
@@ -41,6 +42,8 @@ export class AccountController {
   }
 
   @Get('/self')
+  @ApiBearerAuth()
+  @UseGuards(AuthenticationGuard)
   async readSelf(@Req() request: Request) {
     return request.account;
   }
