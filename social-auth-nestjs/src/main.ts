@@ -2,6 +2,8 @@ import { AppModule } from '@/app.module';
 import { NestFactory } from '@nestjs/core';
 import { ZodValidationPipe, patchNestjsSwagger } from '@anatine/zod-nestjs';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { LoggingInterceptor } from '@/common/logging.interceptor';
+import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,6 +18,7 @@ async function bootstrap() {
   });
 
   app.useGlobalPipes(new ZodValidationPipe());
+  app.useGlobalInterceptors(new LoggingInterceptor(new Logger()));
 
   const config = new DocumentBuilder()
     .setTitle(`NestJS API`)
