@@ -29,9 +29,12 @@ export default function NavBar() {
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <form action={signOut}>
-            <button type="submit">Sign Out</button>
-          </form>
+          <NavigationMenuLink
+            className={navigationMenuTriggerStyle()}
+            href="/api/auth/sign-out"
+          >
+            Sign Out
+          </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
