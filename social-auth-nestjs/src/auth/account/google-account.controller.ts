@@ -1,10 +1,18 @@
 import { GoogleAccountService } from '@/auth/account/google-account.service';
 import { Controller, Get, Query, Res } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
 
 @Controller('api/v1/auth/google')
 export class GoogleAccountController {
-  constructor(private readonly googleAccountService: GoogleAccountService) {}
+  private readonly frontendUrl: string;
+
+  constructor(
+    private readonly googleAccountService: GoogleAccountService,
+    private readonly configService: ConfigService,
+  ) {
+    this.frontendUrl = this.configService.get('FRONTEND_URL');
+  }
 
   @Get()
   async redirectToGoogle(@Res() res: Response) {
@@ -20,7 +28,7 @@ export class GoogleAccountController {
     const accessToken = await this.googleAccountService.authenticate(code);
 
     return res.redirect(
-      `http://localhost:3000/api/auth?accessToken=${accessToken}`,
+      `${this.frontendUrl}/api/auth?accessToken=${accessToken}`,
     );
   }
 }
