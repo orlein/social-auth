@@ -180,6 +180,7 @@ export class AccountService {
 
     const account = await this.accountRepository.findOne({
       where: { plainEmail: decoded.sub },
+      relations: ['socialAccounts'],
     });
 
     if (!account) {

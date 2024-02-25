@@ -17,10 +17,10 @@ export class AccountEntity {
   @Column()
   plainEmail: string;
 
-  @Column()
+  @Column({ select: false })
   passwordHash: string;
 
-  @Column()
+  @Column({ select: false })
   passwordSalt: string;
 
   @OneToMany(
