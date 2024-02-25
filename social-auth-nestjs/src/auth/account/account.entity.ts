@@ -1,8 +1,11 @@
+import { SocialAccountEntity } from '@/auth/account/social-account.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
+  Relation,
   UpdateDateColumn,
 } from 'typeorm';
 
@@ -19,6 +22,12 @@ export class AccountEntity {
 
   @Column()
   passwordSalt: string;
+
+  @OneToMany(
+    () => SocialAccountEntity,
+    (socialAccount) => socialAccount.account,
+  )
+  socialAccounts: Relation<SocialAccountEntity[]>;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

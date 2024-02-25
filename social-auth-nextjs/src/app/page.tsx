@@ -19,7 +19,7 @@ export default async function Home() {
 
   const getSelf = async () => {
     const res = await fetch(
-      "https://social-auth-nestjs.vercel.app/api/v1/auth/account/self",
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/account/self`,
       {
         headers: {
           Authorization: `Bearer ${session.accessToken}`,
