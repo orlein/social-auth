@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 
-export async function getSessionData() {
+async function getSessionData() {
   const session = cookies().get("session")?.value;
   return session ? JSON.parse(session) : null;
 }
