@@ -42,7 +42,7 @@ export class GoogleAccountService {
     return `${rootUrl}?${options.toString()}`;
   }
 
-  private async exchangeCodeForToken(code: string): Promise<any> {
+  private async exchangeCodeForToken(code: string) {
     const url = 'https://oauth2.googleapis.com/token';
     const values = {
       code,
@@ -69,14 +69,11 @@ export class GoogleAccountService {
     }
   }
 
-  async findSocialAccount(
-    id: string,
-    provider: string,
-  ): Promise<SocialAccountEntity> {
+  async findGoogleAccount(id: string) {
     return this.socialAccountRepository.findOne({
       where: {
         id,
-        provider,
+        provider: 'google',
       },
     });
   }
@@ -87,7 +84,7 @@ export class GoogleAccountService {
     );
 
     const [existingSocialAccount, existingAccount] = await Promise.all([
-      this.findSocialAccount(response.data.id, 'google'),
+      this.findGoogleAccount(response.data.id),
       this.accountService.readByUniqueIdentifier({
         plainEmail: response.data.email,
       }),
@@ -95,24 +92,6 @@ export class GoogleAccountService {
 
     if (existingSocialAccount && existingAccount) {
       return existingAccount;
-    }
-
-    if (existingSocialAccount && !existingAccount) {
-      const randomPassword = randomBytes(16).toString('hex');
-      const result = await this.accountService.signUp({
-        plainEmail: response.data.email,
-        plainPassword: randomPassword,
-        passwordRepeat: randomPassword,
-      });
-
-      if (result.error) {
-        throw result.error;
-      }
-
-      existingSocialAccount.account = result.account;
-      await this.socialAccountRepository.save(existingSocialAccount);
-
-      return result.account;
     }
 
     if (!existingSocialAccount && existingAccount) {
@@ -132,6 +111,7 @@ export class GoogleAccountService {
       return existingAccount;
     }
 
+    // no existingAccount below, so create a new account
     const randomPassword = randomBytes(16).toString('hex');
     const result = await this.accountService.signUp({
       plainEmail: response.data.email,
@@ -143,6 +123,14 @@ export class GoogleAccountService {
       throw result.error;
     }
 
+    const newAccount = result.account;
+
+    if (existingSocialAccount) {
+      existingSocialAccount.account = newAccount;
+      await this.socialAccountRepository.save(existingSocialAccount);
+      return newAccount;
+    }
+
     const newSocialAccount = this.socialAccountRepository.create({
       id: response.data.id,
       provider: 'google',
@@ -152,11 +140,11 @@ export class GoogleAccountService {
       isVerified: response.data.verified_email,
       photoUrl: response.data.picture,
       locale: response.data.locale,
-      account: result.account,
+      account: newAccount,
     });
 
     await this.socialAccountRepository.save(newSocialAccount);
-    return result.account;
+    return newAccount;
   }
 
   async authenticate(code: string) {

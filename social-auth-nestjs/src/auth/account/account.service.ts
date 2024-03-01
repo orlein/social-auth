@@ -107,7 +107,6 @@ export class AccountService {
         error: new ConflictException(
           'The email or the phone number is already in use.',
         ),
-        account: null,
       };
     }
 
