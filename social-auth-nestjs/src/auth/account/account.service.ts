@@ -67,28 +67,38 @@ export class AccountService {
 
   async generateAccessToken(account: AccountEntity) {
     const host = this.configService.get('SERVER_HOST');
-    const accessToken = await this.jwtService.signAsync({
-      sub: account.plainEmail,
-      iss: host,
-      iat: getUnixTime(new Date()),
-      exp: getUnixTime(new Date()) + 60 * 60 * 24 * 7, // 7 days
-      type: 'access',
-      maxAge: 60 * 60 * 24 * 7,
-    } as Token);
+    const accessToken = await this.jwtService.signAsync(
+      {
+        sub: account.plainEmail,
+        iss: host,
+        iat: getUnixTime(new Date()),
+        exp: getUnixTime(new Date()) + 60 * 60 * 24 * 7, // 7 days
+        type: 'access',
+        maxAge: 60 * 60 * 24 * 7,
+      } as Token,
+      {
+        secret: this.configService.get('JWT_SECRET'),
+      },
+    );
 
     return accessToken;
   }
 
   async generateRefreshToken(account: AccountEntity) {
     const host = this.configService.get('SERVER_HOST');
-    const refreshToken = await this.jwtService.signAsync({
-      sub: account.plainEmail,
-      iss: host,
-      iat: getUnixTime(new Date()),
-      exp: getUnixTime(new Date()) + 60 * 60 * 24 * 30, // 30 days
-      type: 'refresh',
-      maxAge: 60 * 60 * 24 * 30,
-    } as Token);
+    const refreshToken = await this.jwtService.signAsync(
+      {
+        sub: account.plainEmail,
+        iss: host,
+        iat: getUnixTime(new Date()),
+        exp: getUnixTime(new Date()) + 60 * 60 * 24 * 30, // 30 days
+        type: 'refresh',
+        maxAge: 60 * 60 * 24 * 30,
+      } as Token,
+      {
+        secret: this.configService.get('JWT_SECRET'),
+      },
+    );
 
     return refreshToken;
   }
