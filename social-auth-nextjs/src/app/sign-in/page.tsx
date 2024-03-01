@@ -1,4 +1,4 @@
-import { signIn, signInWithGoogle } from "./actions";
+import { signIn, signInWithGoogle, signInWithNaver } from "./actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,6 +19,9 @@ export default async function SignInPage() {
       </form>
       <form action={signInWithGoogle}>
         <Button type="submit">Sign In With Google</Button>
+      </form>
+      <form action={signInWithNaver}>
+        <Button type="submit">Sign In With Naver</Button>
       </form>
     </>
   );

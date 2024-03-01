@@ -12,28 +12,28 @@ export class SocialAccountEntity {
   @PrimaryGeneratedColumn()
   seq: number;
 
-  @Column()
+  @Column({ nullable: true })
   id: string;
 
   @Column()
   provider: string;
 
-  @Column()
+  @Column({ nullable: true })
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   givenName: string;
 
   @Column()
   email: string;
 
-  @Column()
+  @Column({ nullable: true })
   isVerified: boolean;
 
-  @Column()
+  @Column({ nullable: true })
   photoUrl: string;
 
-  @Column()
+  @Column({ nullable: true })
   locale: string;
 
   @ManyToOne(() => AccountEntity, (account) => account.socialAccounts)
