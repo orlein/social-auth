@@ -40,6 +40,10 @@ export async function signInWithNaver() {
   redirect(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/naver`);
 }
 
+export async function signInWithKakao() {
+  redirect(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/kakao`);
+}
+
 export async function signOut() {
   // Redirect or handle the response after deleting the cookie
   cookies().delete("session");

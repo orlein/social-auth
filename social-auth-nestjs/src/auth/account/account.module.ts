@@ -3,6 +3,8 @@ import { AccountEntity } from '@/auth/account/account.entity';
 import { AccountService } from '@/auth/account/account.service';
 import { GoogleAccountController } from '@/auth/account/google-account.controller';
 import { GoogleAccountService } from '@/auth/account/google-account.service';
+import { KakaoAccountController } from '@/auth/account/kakao-account.controller';
+import { KakaoAccountService } from '@/auth/account/kakao-account.service';
 import { NaverAccountController } from '@/auth/account/naver-account.controller';
 import { NaverAccountService } from '@/auth/account/naver-account.service';
 import { SocialAccountEntity } from '@/auth/account/social-account.entity';
@@ -21,11 +23,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       }),
     }),
   ],
-  providers: [AccountService, GoogleAccountService, NaverAccountService],
+  providers: [
+    AccountService,
+    GoogleAccountService,
+    NaverAccountService,
+    KakaoAccountService,
+  ],
   controllers: [
     AccountController,
     GoogleAccountController,
     NaverAccountController,
+    KakaoAccountController,
   ],
   exports: [AccountService],
 })
