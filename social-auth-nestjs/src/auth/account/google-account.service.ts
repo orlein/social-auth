@@ -53,14 +53,16 @@ export class GoogleAccountService {
     };
 
     try {
-      const response = await axios.post(
-        url,
-        new URLSearchParams(values).toString(),
-        {
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        },
-      );
-      console.log(response.data);
+      const response = await axios.post<{
+        access_token: string;
+        expires_in: number;
+        refresh_token: string;
+        scope: string;
+        token_type: string;
+        id_token: string;
+      }>(url, new URLSearchParams(values).toString(), {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      });
 
       return response.data;
     } catch (error) {
@@ -79,8 +81,15 @@ export class GoogleAccountService {
   }
 
   private async getAccountInfo(accessToken: string): Promise<AccountEntity> {
+    //
     const response = await axios.get(
-      `https://www.googleapis.com/oauth2/v2/userinfo?access_token=${accessToken}`,
+      `https://accounts.google.com/o/oauth2/v2/auth`,
+      {
+        params: {
+          scope: 'https://www.googleapis.com/auth/userinfo.email',
+          access_type: 'offline',
+        },
+      },
     );
 
     const [existingSocialAccount, existingAccount] = await Promise.all([

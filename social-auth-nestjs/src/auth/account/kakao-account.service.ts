@@ -51,6 +51,7 @@ export class KakaoAccountService {
   }
 
   private async exchangeCodeForToken(code: string) {
+    // https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api#request-token
     const tokenUrl = 'https://kauth.kakao.com/oauth/token';
     const data = new URLSearchParams({
       grant_type: 'authorization_code',
